@@ -3,7 +3,18 @@
 **Live Project**: [https://insighta-labs-portal.netlify.app](https://insighta-labs-portal.netlify.app)  
 **Live Backend**: [https://name-classify-api.fastapicloud.dev](https://name-classify-api.fastapicloud.dev)
 
-React/TanStack Start web portal for Insighta Labs+. The portal is the non-technical interface for analysts and internal stakeholders, backed by the same FastAPI service used by the CLI.
+React web portal for Insighta Labs+. The portal is the non-technical interface for analysts and internal stakeholders, backed by the same FastAPI service used by the CLI.
+
+## Tech Stack
+
+- **React 19** with TypeScript
+- **Vite** as build tool and dev server
+- **React Router v7** for client-side routing
+- **TanStack React Query** for server state management
+- **Axios** for HTTP requests
+- **Tailwind CSS v4** for styling
+- **shadcn/ui** (Radix UI primitives + CVA) for component library
+- **Lucide React** for icons
 
 ## Pages
 
@@ -29,7 +40,7 @@ In development, Vite proxies `/auth` and `/api` to the backend so cookie auth wo
 
 The login page links to `GET /auth/github`. The backend handles GitHub OAuth with PKCE, then redirects back to `/dashboard` after setting HTTP-only `access_token` and `refresh_token` cookies.
 
-Tokens are never stored in browser JavaScript. The portal calls backend APIs through TanStack server functions and forwards the incoming `cookie` header to the backend.
+Tokens are never stored in browser JavaScript. The portal calls backend APIs through Axios and React Query, forwarding the incoming `cookie` header to the backend.
 
 ## CSRF Protection
 
@@ -39,7 +50,7 @@ The backend sets a readable `csrf_token` cookie alongside the HTTP-only auth coo
 X-CSRF-Token: <csrf_token cookie value>
 ```
 
-The portal sends this header from server functions for:
+The portal sends this header for:
 
 - logout
 - profile creation
@@ -68,4 +79,4 @@ npm run build
 
 ## Deployment
 
-The app is configured for Netlify through `netlify.toml` and the Netlify TanStack Start plugin. The submitted deployment should include the live portal URL and the deployed backend URL.
+The app is configured for Netlify. The submitted deployment should include the live portal URL and the deployed backend URL.
