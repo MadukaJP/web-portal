@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import type { Profile } from '#/functions/profiles'
+import { Link } from "react-router-dom";
+import type { Profile } from "#/functions/profiles";
 
 export function ProfileTable({ profiles }: { profiles: Profile[] }) {
   return (
@@ -22,29 +22,30 @@ export function ProfileTable({ profiles }: { profiles: Profile[] }) {
           {profiles.map((p, i) => (
             <tr
               key={p.id}
-              className={`border-t border-border ${i % 2 === 1 ? 'bg-muted' : 'bg-background'}`}
+              className={`border-t border-border ${i % 2 === 1 ? "bg-muted" : "bg-background"} cursor-pointer hover:opacity-80`}
             >
-              <td className="px-4 py-3">
-                <Link
-                  to={`/profiles/${p.id}`}
-                  className="font-medium text-foreground hover:underline"
-                >
-                  {p.name}
-                </Link>
-              </td>
-              <td className="px-4 py-3 text-muted-foreground">{p.gender}</td>
-              <td className="px-4 py-3 text-muted-foreground">{p.age}</td>
-              <td className="px-4 py-3 text-muted-foreground">
-                {p.country_id}
-              </td>
-              <td className="px-4 py-3 text-muted-foreground">{p.age_group}</td>
-              <td className="px-4 py-3 text-muted-foreground">
-                {new Date(p.created_at).toLocaleDateString()}
-              </td>
+              <Link to={`/profiles/${p.id}`} className="contents">
+                <td className="px-4 py-3">
+                  <span className="font-medium text-foreground hover:underline">
+                    {p.name}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-muted-foreground">{p.gender}</td>
+                <td className="px-4 py-3 text-muted-foreground">{p.age}</td>
+                <td className="px-4 py-3 text-muted-foreground">
+                  {p.country_id}
+                </td>
+                <td className="px-4 py-3 text-muted-foreground">
+                  {p.age_group}
+                </td>
+                <td className="px-4 py-3 text-muted-foreground">
+                  {new Date(p.created_at).toLocaleDateString()}
+                </td>
+              </Link>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
