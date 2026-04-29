@@ -1,28 +1,29 @@
 # Insighta Labs+ Web Portal
 
+**Live Project**: [https://insighta-labs-portal.netlify.app](https://insighta-labs-portal.netlify.app)  
+**Live Backend**: [https://name-classify-api.fastapicloud.dev](https://name-classify-api.fastapicloud.dev)
+
 React/TanStack Start web portal for Insighta Labs+. The portal is the non-technical interface for analysts and internal stakeholders, backed by the same FastAPI service used by the CLI.
 
 ## Pages
 
 - `/login`: GitHub OAuth entry point
 - `/dashboard`: basic profile metrics and recent profiles
-- `/profiles`: filters, sorting, pagination, CSV export, admin create form
-- `/profiles/$id`: profile detail view, admin-only delete action
+- `/profiles`: filters, sorting, pagination, CSV export, admin create form. Clicking any profile in the list navigates to its detail page.
+- `/profiles/$id`: profile detail view with full information and admin-only delete action
 - `/search`: natural language profile search
 - `/account`: authenticated user profile and logout
 
 ## Configuration
 
-Create `.env`:
+Create `.env` from `.env.example`:
 
 ```env
+VITE_API_URL=https://name-classify-api.fastapicloud.dev
 VITE_API_VERSION=1
-VITE_API_URL=http://localhost:3000
-VITE_BACKEND_URL=http://localhost:8000
-VITE_ENV=development
 ```
 
-In development, Vite proxies `/auth` and `/api` to `VITE_BACKEND_URL` so cookie auth can work as same-origin traffic. In production, configure `VITE_API_URL` to the deployed backend origin or same-origin proxy.
+In development, Vite proxies `/auth` and `/api` to the backend so cookie auth works as same-origin traffic. In production, set `VITE_API_URL` to the deployed backend origin.
 
 ## Authentication
 
