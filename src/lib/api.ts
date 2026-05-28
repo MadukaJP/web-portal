@@ -3,17 +3,31 @@ import axios, { AxiosHeaders } from "axios";
 
 const UNSAFE_METHODS = new Set(["post", "put", "patch", "delete"]);
 
-function getBrowserCookie(name: string): string | undefined {
+async function getCsrfToken(): Promise<string | undefined> {
+  const name = "csrf_token"
   if (typeof document === "undefined") return undefined;
 
   const cookies = document.cookie.split(";");
+  let csrfToken
   for (const cookie of cookies) {
     const [rawKey, ...rawValue] = cookie.trim().split("=");
-    if (rawKey === name) return decodeURIComponent(rawValue.join("="));
+    if (rawKey === name) {
+      csrfToken = decodeURIComponent(rawValue.join("="))};
   }
 
-  return undefined;
+  if (csrfToken) return csrfToken
+
+  try {
+    const response = await api.get("/auth/csrf-token", { _isCsrfFetch: true } as any)
+    const newToken = response.data.data.csrf_token
+    document.cookie = `csrf_token=${newToken}; max-age=300; path=/; SameSite=Strict; Secure`;
+    return newToken
+  } catch {
+    return undefined
+  }
 }
+
+
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -23,21 +37,12 @@ export const api = axios.create({
 
 let isRefreshing = false;
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(async (config) => {
   const method = config.method?.toLowerCase();
   const csrfToken =
     method && UNSAFE_METHODS.has(method)
-      ? getBrowserCookie("csrf_token")
+      ? await getCsrfToken()
       : undefined;
-
-  console.log(
-    "[API Interceptor] Method:",
-    method,
-    "CSRF Token:",
-    csrfToken,
-    "All cookies:",
-    typeof document !== "undefined" ? document.cookie : "N/A",
-  );
 
   if (csrfToken) {
     const headers = AxiosHeaders.from(config.headers);
@@ -53,7 +58,7 @@ api.interceptors.response.use(
   async (error) => {
     const original = error.config;
 
-    if (error.response?.status === 401 && !original._retry) {
+    if (error.response?.status === 401 && !original._retry && !original._isCsrfFetch) {
       if (typeof window === "undefined") {
         return Promise.reject(error);
       }
