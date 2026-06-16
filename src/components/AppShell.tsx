@@ -10,6 +10,7 @@ const navItems = [
   { to: '/profiles', label: 'Profiles' },
   { to: '/search', label: 'Search' },
   { to: '/account', label: 'Account' },
+  { to: '/api-key', label: 'API Key' },
 ] as const
 
 function MenuIcon() {

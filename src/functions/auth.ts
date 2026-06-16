@@ -16,3 +16,8 @@ export async function getMe(): Promise<MeResponse> {
 export async function logout(): Promise<void> {
   await api.post('/auth/logout')
 }
+
+export async function createApiKey(): Promise<string> {
+  const res = await api.post('/auth/api-keys')
+  return res.data.api_key || res.data.data?.api_key
+}

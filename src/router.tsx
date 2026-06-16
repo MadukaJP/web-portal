@@ -6,6 +6,7 @@ import { ProfilesPage } from '#/pages/ProfilesPage'
 import { ProfileDetailPage } from '#/pages/ProfileDetailPage'
 import { SearchPage } from '#/pages/SearchPage'
 import { AccountPage } from '#/pages/AccountPage'
+import { ApiKeyPage } from '#/pages/ApiKeyPage'
 import { ProtectedRoute } from '#/components/ProtectedRoute'
 import { NotFoundPage } from '#/pages/NotFoundPage'
 
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: '/account',
         element: <AccountPage />,
+      },
+      {
+        path: '/api-key',
+        element: <ApiKeyPage />,
       },
     ],
   },
