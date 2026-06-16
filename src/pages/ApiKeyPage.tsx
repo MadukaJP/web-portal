@@ -109,7 +109,7 @@ export function ApiKeyPage() {
                 <ShieldAlert className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
                 <div className="text-sm text-destructive-foreground">
                   <p className="font-semibold text-destructive">Crucial Notice</p>
-                  <p className="mt-1 leading-relaxed">
+                  <p className="mt-1 leading-relaxed text-black">
                     Once you close this view or leave this page, <strong>this API key cannot be retrieved</strong>. If lost, you will have to generate a new one, which will revoke access for this one.
                   </p>
                 </div>
